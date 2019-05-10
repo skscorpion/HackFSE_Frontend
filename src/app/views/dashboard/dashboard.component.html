@@ -1,0 +1,302 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card card-stats">
+        <!-- Card body -->
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase mb-0">Associates</h5>
+              <a class="h2 font-weight-bold mb-0 color-anchorblue" (click)="showAssociateModal()" id="associateCount">{{totalAssociates}}</a>
+            </div>
+            <div class="col-auto">
+              <div class="" style="font-size: 3em; min-height: 64px;">
+                <i class="fa fa-id-badge color-primary"></i>
+              </div>
+            </div>
+          </div>
+          <!--<p class="mt-3 mb-0 text-sm">
+            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+            <span class="text-nowrap">Since last year</span>
+          </p>-->
+        </div>
+      </div>
+    </div><!--/.col-->
+    <div class="col-sm-6 col-lg-3">
+      <div class="card card-stats">
+        <!-- Card body -->
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase mb-0">Volunteers</h5>
+              <a class="h2 font-weight-bold mb-0 color-anchorblue" (click)="showVolunteerModal()" id="volunteersCount">{{totalVolunteers}}</a>
+            </div>
+            <div class="col-auto">
+              <div class="" style="font-size: 3em; min-height: 64px;">
+                <i class="fa fa-users color-primary"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div><!--/.col-->
+    <div class="col-sm-6 col-lg-3">
+      <div class="card card-stats">
+        <!-- Card body -->
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase mb-0">Events</h5>
+              <a class="h2 font-weight-bold mb-0 color-anchorblue" (click)="showEventModal()" id="eventCount">{{totalEvents}}</a>
+            </div>
+            <div class="col-auto">
+              <div class="" style="font-size: 3em; min-height: 64px;">
+                <i class="fa fa-calendar-check-o color-primary"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div><!--/.col-->
+    <div class="col-sm-6 col-lg-3">
+      <div class="card card-stats">
+        <!-- Card body -->
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase mb-0">Volunteer Hrs</h5>
+              <a class="h2 font-weight-bold mb-0 color-anchorblue" (click)="showVolunteerModal()" id="volunteerHrs">{{totalVolunteerHours}}</a>
+            </div>
+            <div class="col-auto">
+              <div style="font-size: 3em; min-height: 64px;">
+                <!--class="icon icon-shape bg-gradient-red text-white rounded-circle shadow"-->
+                <i class="fa fa-clock-o color-primary" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div><!--/.col-->
+  </div><!--/.row-->
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-5">
+          <h4 class="card-title mb-0">Volunteers Trend</h4>
+          <!-- <div class="small text-muted">November 2017</div> -->
+        </div><!--/.col-->
+        <!--/.col-->
+      </div><!--/.row-->
+     
+      <div class="chart-wrapper">
+        <div id="volunteersGraph" style="width: 100%; min-height: 550px;"></div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="row text-center">
+        <div class="col-xs-12 col-sm-6 col-lg mb-sm-2 mb-0" *ngFor="let data of topData">
+          <div class="text-muted">{{data.key}}</div>
+          <strong>
+            {{data.count}} Volunteers ({{data.percent.toFixed(2)}}%)
+          </strong>
+          <div class="progress progress-xs mt-2" style="background-color:white;">
+            <div class="progress-bar bg-success" role="progressbar" [style.width]="data.percent + '%'" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  <!--/.card-->
+  <!--/.row-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          New Vs Repeat Volunteers
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="chart-wrapper">
+                <div id="doubleLineChart" style="width: 100%; min-height: 550px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <br>
+         
+          <h3><p>Top 10 Volunteers</p></h3>
+          <p-table #dt [value]="topVolunteers" [paginator]="true" [rows]="10">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Associate Id</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Business Unit</th>
+                <th>Location</th>
+                <th>Total Volunteered</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-volunteer>
+              <tr>
+                <td>{{volunteer.associate.id}}</td>
+                <td>{{volunteer.associate.name}}</td>
+                <td>{{volunteer.associate.designation}}</td>
+                <td>{{volunteer.associate.businessUnit}}</td>
+                <td>{{volunteer.associate.baseLocation}}</td>
+                <td>{{volunteer.count}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+          <br />
+          <h3><p>Recent 10 Events</p></h3>
+          <p-table #dtEvent [value]="recentEvents" [paginator]="true" [rows]="10">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Event Id</th>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Focus Area</th>
+                <th>Lives Impacted</th>
+                <th>Total Volunteers</th>
+                <th>Total Volunteering Hours</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-event>
+              <tr>
+                <td>{{event.id}}</td>
+                <td>{{event.name}}</td>
+                <td>{{event.date | date:'dd/MM/yyyy'}}</td>
+                <td>{{event.baseLocation}}</td>
+                <td>{{event.project}} - {{event.category}}</td>
+                <td>{{event.livesImpacted}}</td>
+                <td>{{event.totalVolunteers}}</td>
+                <td>{{event.totalTravelHours + event.totalVolunteerHours}}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+
+        </div>
+      </div>
+
+    </div><!--/.col-->
+  </div><!--/.row-->
+</div>
+
+
+<p-dialog header="Associate Details" [modal]="true" [(visible)]="showAssociatesModal" [style]="{ width: '70%', height: '80%'}">
+  <div *ngIf="showAssociatesModal">
+
+    <p-table #dt [value]="allAssociates" [paginator]="true" [rows]="10" [columns]="associateColumns">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix">
+          <button type="button" class="btn btn-primary fas fa-file-export" iconPos="left" (click)="dt.exportCSV()"
+                  style="float:right">
+            Export CSV
+          </button>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-associate>
+        <tr>
+          <td>{{associate.id}}</td>
+          <td>{{associate.name}}</td>
+          <td>{{associate.designation}}</td>
+          <td>{{associate.baseLocation}}</td>
+          <td>{{associate.businessUnit}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>
+
+<p-dialog header="Volunteer Details" [modal]="true" [(visible)]="showVolunteersModal" [style]="{ width: '70%', height: '80%'}">
+  <div *ngIf="showVolunteersModal">
+
+    <p-table #dt [value]="volunteersData" [paginator]="true" [rows]="10" [columns]="volunteerColumns">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix">
+          <button type="button" class="btn btn-primary fas fa-file-export" iconPos="left" (click)="dt.exportCSV()"
+                  style="float:right">
+            Export CSV
+          </button>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-volunteer>
+        <tr>
+          <td>{{volunteer.id}}</td>
+          <td>{{volunteer.name}}</td>
+          <td>{{volunteer.designation}}</td>
+          <td>{{volunteer.baseLocation}}</td>
+          <td>{{volunteer.businessUnit}}</td>
+          <td>{{volunteer.events}}</td>
+          <td>{{volunteer.volunteerHrs}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>
+
+
+<p-dialog header="Event Details" [modal]="true" [(visible)]="showEventsModal" [style]="{ width: '90%', height: '80vh'}">
+  <div *ngIf="showEventsModal">
+    <!-- <ng-template pTemplate="caption">
+      <div class="ui-helper-clearfix">
+       <button type="button" icon="fa fa-file-o" iconPos="left" label="All Data" (click)="dt.exportCSV({selectionOnly:true})" style="float:left">All Data</button>
+        <button type="button" class="btn btn-primary fas fa-file-export" iconPos="left" (click)="dt.exportCSV()"
+          style="float:right">Export CSV</button>
+      </div>
+    </ng-template> -->
+
+    <p-table #dt [value]="allEvents" [paginator]="true" [rows]="10" [columns]="eventColumns">
+      <ng-template pTemplate="caption">
+        <div class="ui-helper-clearfix">
+          <button type="button" class="btn btn-primary fas fa-file-export" iconPos="left" (click)="dt.exportCSV()"
+                  style="float:right">
+            Export CSV
+          </button>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-event>
+        <tr>
+          <td>{{event.id}}</td>
+          <td>{{event.name}}</td>
+          <td>{{event.date| date:'MM/dd/yyyy'}}</td>
+          <td>{{event.baseLocation}}</td>
+          <td>{{event.project}}</td>
+          <td>{{event.category}}</td>
+          <td>{{event.livesImpacted}}</td>
+          <td>{{event.totalVolunteers}}</td>
+          <td>{{event.totalTravelHours}}</td>
+          <td>{{event.totalVolunteerHours}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-dialog>
